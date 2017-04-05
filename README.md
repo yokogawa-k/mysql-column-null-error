@@ -1,5 +1,11 @@
+## これは何か
 
-### 再現方法
+MySQL 5.7.17 (5.7.16 でも発生するので 5.7.17 に限るわけではない模様) で NULL ではないカラムなのに、INSERT や UPDATE で `Column 'addr' cannot be null` と言うようなエラーが出てしまう現象が発生した。  
+これはエラーを再現する最小限の sql と docker-compose.yml になる
+
+docker-compose を使う必要は必ずしもない。
+
+## 再現方法
 
 - `LOAD.sql` を適切な箇所に配置する（デフォルトでは `/work/LOAD.sql`）
 - `mysql <error.sql` を実行する
