@@ -8,6 +8,7 @@ jobs:
       - run:
           name: running test 
           command: |
+            set -x
             while read file; do
               case ${file} in
                 docker-compose.yml)
