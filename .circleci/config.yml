@@ -10,12 +10,14 @@ jobs:
           command: |
             set -x
             docker-compose up -d 
+            docker-compose exec mysqld sh -c 'while {1..60};do mysql -e "select version()" && exit; sleep 1;done'
             # docker-compose bug 
             # https://github.com/docker/compose/issues/3352
             #  -T option disabled stdin and tty
             #  We needs stdin and no tty option.
-            docker-compose exec mysqld sh -c 'mysql -e "select version()";mysql </work/error.sql'
+            docker-compose exec mysqld sh -c 'mysql </work/error.sql'
             docker-compose down
             docker-compose -f docker-compose-oracle-image.yml up -d 
-            docker-compose exec mysqld sh -c 'mysql -e "select version()";mysql </work/error.sql'
+            docker-compose exec mysqld sh -c 'while {1..60}; mysql -e "select version()" && exit; sleep 1;done'
+            docker-compose exec mysqld sh -c 'mysql </work/error.sql'
             docker-compose down
