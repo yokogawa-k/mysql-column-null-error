@@ -20,7 +20,7 @@ jobs:
                   docker-compose down
                   ;;  
                 docker-compose-oracle-image.yml)
-                  docker-compose f docker-compose-oracle-image.yml up -d 
+                  docker-compose -f docker-compose-oracle-image.yml up -d 
                   docker-compose exec mysqld sh -c 'mysql -e "select version()";mysql </work/error.sql'
                   docker-compose down
                   ;;
