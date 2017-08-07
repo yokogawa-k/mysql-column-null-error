@@ -8,24 +8,16 @@ jobs:
       - run:
           name: running test 
           command: |
-            while read file; do
-              case ${file} in
-                docker-compose.yml)
-                  docker-compose up -d 
-                  # docker-compose bug 
-                  # https://github.com/docker/compose/issues/3352
-                  #  -T option disabled stdin and tty
-                  #  We needs stdin and no tty option.
-                  docker-compose exec mysqld sh -c 'mysql -e "select version()";mysql </work/error.sql'
-                  docker-compose down
-                  ;;  
-                docker-compose-oracle-image.yml)
-                  docker-compose f docker-compose-oracle-image.yml up -d 
-                  docker-compose exec mysqld sh -c 'mysql -e "select version()";mysql </work/error.sql'
-                  docker-compose down
-                  ;;
-                *)
-                  echo "No task.(target file ${file})"
-                  ;;
-              esac
-            done < <(git diff --stat --name-only HEAD^)
+            set -x
+            docker-compose up -d 
+            docker-compose exec mysqld sh -c 'for i in $(seq 60);do mysql -e "select version()" && exit; sleep 1;done'
+            # docker-compose bug 
+            # https://github.com/docker/compose/issues/3352
+            #  -T option disabled stdin and tty
+            #  We needs stdin and no tty option.
+            docker-compose exec mysqld sh -c 'mysql </work/error.sql;true'
+            docker-compose down
+            docker-compose -f docker-compose-oracle-image.yml up -d 
+            docker-compose exec mysqld sh -c 'for i in $(seq 60);do mysql -e "select version()" && exit; sleep 1;done'
+            docker-compose exec mysqld sh -c 'mysql </work/error.sql;true'
+            docker-compose down
