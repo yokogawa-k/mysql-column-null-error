@@ -29,4 +29,4 @@ jobs:
                   echo "No task.(target file ${file})"
                   ;;
               esac
-            done < <(git diff --stat --name-only master)
+            done < <(git diff --name-only master..${CIRCLE_BRANCH})
