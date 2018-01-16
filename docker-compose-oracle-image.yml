@@ -2,7 +2,7 @@ version: '2.1'
 
 services:
   mysqld:
-    image: mysql/mysql-server:5.7.20
+    image: mysql/mysql-server:5.7.21
     volumes:
       - .:/work
     environment:
