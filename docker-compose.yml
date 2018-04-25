@@ -2,30 +2,11 @@ version: '2.1'
 
 services:
   mysqld:
-    image: mysql:5.7.22
-#   image: mysql:5.7.5
-#   image: mysql:5.6.35
+    image: ${IMAGE:-mysql}
+    container_name: mysqld
     volumes:
-      - ./my.cnf:/etc/my.cnf:ro
-#     - ./query_log_and_trx0.cnf:/etc/mysql/conf.d/query_log_and_trx0.cnf:ro
-#     - ./initdb/:/docker-entrypoint-initdb.d/:ro
       - .:/work
-#     - ./mysql_data/:/var/lib/mysql
     environment:
-#     MYSQL_ROOT_PASSWORD: rootpass
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-# mysql:
-#   image: mysql:5.7.17
-#   volumes:
-#     - .:/work
-#   working_dir: /work
-#   tty: true
-#   command: bash
-# python:
-#   build: python/
-#   tty: true
-#   volumes:
-#     - .:/work
-#   working_dir: /work
-#   command: bash
+    command: --local-infile=1
 

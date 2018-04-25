@@ -1,9 +1,14 @@
 ## これは何か
 
-MySQL 5.7.17 (5.7.16 でも発生するので 5.7.17 に限るわけではない模様) で NULL ではないカラムなのに、INSERT や UPDATE で `Column 'addr' cannot be null` と言うようなエラーが出てしまう現象が発生した。  
-これはエラーを再現する最小限の sql と docker-compose.yml になる
+[MySQL Bugs: #85805: Incorrect ER_BAD_NULL_ERROR after LOAD DATA LOCAL INFILE](https://bugs.mysql.com/bug.php?id=85805) のバクの検証用レポジトリです。
 
-docker-compose を使う必要は必ずしもない。
+## バグの内容
+
+MySQL 5.7.17 (5.7.16 でも発生するので 5.7.17 に限るわけではない模様) で NULL ではないカラムに `LOAD DATA LOCAL INFILE` などで NULL を import した後（これ自体はどのバージョンでもできる）に、**同じセッション** で INSERT や UPDATE を実施すると `Column 'addr' cannot be null` と言うエラーが発生しました。
+
+これはエラーを再現する最小限の sql と docker-compose.yml になります。
+
+docker-compose を使う必要は必ずしもありません。
 
 ## 再現方法
 
