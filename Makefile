@@ -13,21 +13,12 @@ help-common:
 .PHONY: test
 test:
 	docker-compose up -d
-	docker exec -it mysqld sh -c 'for i in $$(seq 60);do mysql -e "select version()" && exit; sleep 1;done' && \
-	docker exec -it mysqld sh -c 'mysql --local-infile=1 </work/error.sql;true'
+	docker-compose exec mysqld sh -c 'for i in $$(seq 60);do mysql -e "select version()" && exit; sleep 1;done'
+	docker-compose exec mysqld sh -c 'mysql --local-infile=1 </work/error.sql;true'
 	@echo '注意:'
 	@echo '"ERROR 1048 (23000) at line 17: Column '\''addr'\'' cannot be null" と出るようならばバグが存在します'
 	docker-compose down
 
-#
-#test:
-#	docker-compose up -d
-#	exec 9<&0 0</dev/tty; \
-#	docker-compose exec mysqld sh -c 'for i in $(seq 60);do mysql -e "select version()" && exit; sleep 1;done' && \
-#	docker-compose exec mysqld sh -c 'mysql --local-infile=1 </work/error.sql;true'; \
-#	exec 0<&9 9<&-; \
-#	docker-compose down
-#
 .PHONY: all
 all: official-5.7 official-8.0 oracle-5.7 oracle-8.0 mariadb-10.1 mariadb-10.2 mariadb-10.3 ## すべてのテストを実施
 
