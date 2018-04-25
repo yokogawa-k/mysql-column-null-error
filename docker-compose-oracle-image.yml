@@ -1,9 +1,0 @@
-version: '2.1'
-
-services:
-  mysqld:
-    image: mysql/mysql-server:5.7.22
-    volumes:
-      - .:/work
-    environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
