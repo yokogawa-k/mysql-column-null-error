@@ -9,7 +9,7 @@ services:
       - .:/work
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-    command: --gtid-mode=ON --log-bin=mysql-bin --enforce-gtid-consistency=true --local-infile=true --log-slave-updates=true --server-id=101
+    command: --binlog-format=${BINLOG_FORMAT:-row}  --gtid-mode=ON --log-bin=mysql-bin --enforce-gtid-consistency=true --local-infile=true --log-slave-updates=true --server-id=101
   slave:
     image: ${IMAGE:-mysql}
     container_name: slave
@@ -18,5 +18,5 @@ services:
       - .:/work
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-    command: --gtid-mode=ON --log-bin=mysql-bin --enforce-gtid-consistency=true --local-infile=true --log-slave-updates=true --server-id=102
+    command:  --binlog-format=${BINLOG_FORMAT:-row} --gtid-mode=ON --log-bin=mysql-bin --enforce-gtid-consistency=true --local-infile=true --log-slave-updates=true --server-id=102
 

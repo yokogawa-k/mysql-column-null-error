@@ -18,5 +18,5 @@ services:
       - .:/work
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-    command: --binlog-format=${BINLOG_FORMAT:-row}  --log-bin=mysql-bin --local-infile=true --server-id=102
+    command: --binlog-format=${BINLOG_FORMAT:-row} --log-bin=mysql-bin --local-infile=true --server-id=102
 
