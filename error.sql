@@ -1,4 +1,4 @@
-SELECT @@session.sql_mode;
+/* SELECT @@session.sql_mode; */
 DROP DATABASE IF EXISTS bar;
 CREATE DATABASE bar DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
 use `bar`;
@@ -7,10 +7,12 @@ CREATE TABLE ip (
         addr VARCHAR(191) NOT NULL, 
         PRIMARY KEY (id)
 )CHARSET=utf8mb4 ENGINE=InnoDB;
+SELECT '** INSERT NULL data to not null column on `ip` table with LOAD DATA LOCAL INFILE';
 BEGIN;
 LOAD DATA LOCAL INFILE '/work/LOAD.sql' INTO TABLE `ip` FIELDS TERMINATED BY '\t' ENCLOSED BY '' ESCAPED BY '\\' LINES TERMINATED BY '\n' (`id`, `addr`);
 SHOW WARNINGS\G;
 COMMIT;
+SELECT '** START INSERT/UPDATE/SELECT `ip` table';
 BEGIN;
 SELECT * FROM ip \G;
 /* INSERT INTO ip (`id`, `addr`) VALUES (2, '192.168.0.2'); */
