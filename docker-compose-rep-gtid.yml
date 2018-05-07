@@ -1,0 +1,22 @@
+version: '2.1'
+
+services:
+  master:
+    image: ${IMAGE:-mysql}
+    container_name: master
+    volumes:
+      - ./initdb/master/:/docker-entrypoint-initdb.d/
+      - .:/work
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    command: --binlog-format=${BINLOG_FORMAT:-row}  --gtid-mode=ON --log-bin=mysql-bin --enforce-gtid-consistency=true --local-infile=true --log-slave-updates=true --server-id=101
+  slave:
+    image: ${IMAGE:-mysql}
+    container_name: slave
+    volumes:
+      - ./initdb/slave/:/docker-entrypoint-initdb.d/
+      - .:/work
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    command:  --binlog-format=${BINLOG_FORMAT:-row} --gtid-mode=ON --log-bin=mysql-bin --enforce-gtid-consistency=true --local-infile=true --log-slave-updates=true --server-id=102
+

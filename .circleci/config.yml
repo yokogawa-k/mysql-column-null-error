@@ -13,3 +13,4 @@ jobs:
             # https://github.com/docker/compose/issues/3352
             #  -T option disabled stdin and tty
             #  We needs stdin and no tty option.
+            make all-rep
