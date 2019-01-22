@@ -1,5 +1,5 @@
 SHELL := /bin/bash
-MYSQL57_VERSION := mysql:5.7.24
+MYSQL57_VERSION := mysql:5.7.25
 BINLOG_FORMATS := row mixed statement
 
 .PHONY: default
@@ -44,7 +44,7 @@ official-5.7: ## docker official の MySQL 5.7 イメージでテスト
 	@make IMAGE=$(MYSQL57_VERSION) test
 
 official-8.0: ## docker official の MySQL 8.0 イメージでテスト
-	@make IMAGE=mysql:8.0.13 test
+	@make IMAGE=mysql:8.0.14 test
 
 oracle-5.7: ## Oracle の MySQL 5.7 イメージでテスト
 	@make IMAGE=mysql/mysql-server:5.7.25 test
