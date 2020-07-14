@@ -42,7 +42,8 @@ test-rep:
 	docker-compose down
 
 .PHONY: all
-all: official-5.7 official-8.0 oracle-5.7 oracle-8.0 mariadb-10.1 mariadb-10.2 mariadb-10.3 mariadb-10.4 mariadb-10.5 ## すべてのテストを実施
+all: clean official-5.7 official-8.0 oracle-5.7 oracle-8.0 mariadb-10.1 mariadb-10.2 mariadb-10.3 mariadb-10.4 mariadb-10.5 ## すべてのテストを実施
+	cat $(RESULT_FILE)
 
 .PHONY: official-5.7 official-8.0 oracle-5.7 oracle-8.0 mariadb-10.1 mariadb-10.2 mariadb-10.3 mariadb-10.4 mariadb-10.5
 official-5.7: ## docker official の MySQL 5.7 イメージでテスト
