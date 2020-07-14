@@ -1,6 +1,7 @@
 SHELL := /bin/bash
 MYSQL57_VERSION := mysql:5.7.30
 BINLOG_FORMATS := row mixed statement
+RESULT_FILE := result.txt
 
 .PHONY: default
 default: help
@@ -15,7 +16,11 @@ help-common:
 test:
 	docker-compose up -d
 	docker-compose exec mysqld sh -c 'for i in $$(seq 60);do mysql -e "select version()" && exit; sleep 1;done'
-	docker-compose exec mysqld sh -c 'mysql --local-infile=1 </work/error.sql;true'
+	if docker-compose exec mysqld sh -c 'mysql --local-infile=1 </work/error.sql'; then \
+		echo "$(IMAGE) : OK" >>$(RESULT_FILE); \
+	else \
+		echo "$(IMAGE) : NG" >>$(RESULT_FILE); \
+	fi
 	@echo '注意:'
 	@echo '"ERROR 1048 (23000) at line XX: Column '\''addr'\'' cannot be null" と出るようならばバグが存在します'
 	docker-compose down
@@ -37,7 +42,8 @@ test-rep:
 	docker-compose down
 
 .PHONY: all
-all: official-5.7 official-8.0 oracle-5.7 oracle-8.0 mariadb-10.1 mariadb-10.2 mariadb-10.3 mariadb-10.4 mariadb-10.5 ## すべてのテストを実施
+all: clean official-5.7 official-8.0 oracle-5.7 oracle-8.0 mariadb-10.1 mariadb-10.2 mariadb-10.3 mariadb-10.4 mariadb-10.5 ## すべてのテストを実施
+	cat $(RESULT_FILE)
 
 .PHONY: official-5.7 official-8.0 oracle-5.7 oracle-8.0 mariadb-10.1 mariadb-10.2 mariadb-10.3 mariadb-10.4 mariadb-10.5
 official-5.7: ## docker official の MySQL 5.7 イメージでテスト
@@ -82,3 +88,5 @@ endef
 
 $(foreach _fmt,$(BINLOG_FORMATS),$(eval $(call rep_target_template,$(_fmt)))): ## MySQL 5.7 イメージでレプリケーションが停止しないかのテスト
 
+clean:
+	rm -rf $(RESULT_FILE)
