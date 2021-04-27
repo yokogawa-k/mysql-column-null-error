@@ -1,5 +1,5 @@
 SHELL := /bin/bash
-MYSQL57_VERSION := mysql:5.7.33
+MYSQL57_VERSION := mysql:5.7.34
 BINLOG_FORMATS := row mixed statement
 RESULT_FILE := result.txt
 
@@ -50,28 +50,28 @@ official-5.7: ## docker official の MySQL 5.7 イメージでテスト
 	@make IMAGE=$(MYSQL57_VERSION) test
 
 official-8.0: ## docker official の MySQL 8.0 イメージでテスト
-	@make IMAGE=mysql:8.0.23 test
+	@make IMAGE=mysql:8.0.24 test
 
 oracle-5.7: ## Oracle の MySQL 5.7 イメージでテスト
-	@make IMAGE=mysql/mysql-server:5.7.33 test
+	@make IMAGE=mysql/mysql-server:5.7.34 test
 
 oracle-8.0: ## Oracle の MySQL 8.0 イメージでテスト
-	@make IMAGE=mysql/mysql-server:8.0.23 test
+	@make IMAGE=mysql/mysql-server:8.0.24 test
 
 mariadb-10.1: ## docker official の MariaDB 10.1 イメージでテスト
 	@make IMAGE=mariadb:10.1.48 test
 
 mariadb-10.2: ## docker official の MariaDB 10.2 イメージでテスト
-	@make IMAGE=mariadb:10.2.36 test
+	@make IMAGE=mariadb:10.2.37 test
 
 mariadb-10.3: ## docker official の MariaDB 10.3 イメージでテスト
-	@make IMAGE=mariadb:10.3.27 test
+	@make IMAGE=mariadb:10.3.28 test
 
 mariadb-10.4: ## docker official の MariaDB 10.4 イメージでテスト
-	@make IMAGE=mariadb:10.4.17 test
+	@make IMAGE=mariadb:10.4.18 test
 
 mariadb-10.5: ## docker official の MariaDB 10.5 イメージでテスト
-	@make IMAGE=mariadb:10.5.8 test
+	@make IMAGE=mariadb:10.5.9 test
 
 .PHONY: all-rep
 define rep_target_template
