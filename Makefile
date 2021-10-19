@@ -32,6 +32,7 @@ test-rep:
 	docker-compose exec slave sh -c 'mysql -sNe "show variables" | grep -e gtid_mode -e sql_mode -e binlog_format'
 	docker-compose exec master sh -c 'mysql --local-infile=1 </work/rep-error.sql;true'
 	docker-compose exec master mysql bar -e 'UPDATE ip SET addr="192.168.0.1" WHERE id = 1'
+	sleep 3
 	docker-compose exec slave mysql bar -e 'select * from ip'
 	docker-compose exec slave sh -c 'mysql -e "show slave status\G" | grep -e "_Running:" -e "Seconds_Behind_Master"'
 	@echo '*******************************************************************************************************************'
