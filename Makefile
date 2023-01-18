@@ -1,5 +1,5 @@
 SHELL := /bin/bash
-MYSQL57_VERSION := mysql:5.7.40
+MYSQL57_VERSION := mysql:5.7.41
 BINLOG_FORMATS := row mixed statement
 RESULT_FILE := result.txt
 
@@ -43,27 +43,30 @@ test-rep:
 	docker-compose down
 
 .PHONY: all
-all: clean official-5.7 official-8.0 oracle-5.7 oracle-8.0 mariadb-10.6 mariadb-10.7 ## すべてのテストを実施
+all: clean official-5.7 official-8.0 oracle-5.7 oracle-8.0 mariadb-10.7 mariadb-10.8 mariadb-10.9 ## すべてのテストを実施
 	cat $(RESULT_FILE)
 
-.PHONY: official-5.7 official-8.0 oracle-5.7 oracle-8.0 mariadb-10.6 mariadb-10.7
+.PHONY: official-5.7 official-8.0 oracle-5.7 oracle-8.0 mariadb-10.7 mariadb-10.8 mariadb-10.9
 official-5.7: ## docker official の MySQL 5.7 イメージでテスト
 	@make IMAGE=$(MYSQL57_VERSION) test
 
 official-8.0: ## docker official の MySQL 8.0 イメージでテスト
-	@make IMAGE=mysql:8.0.31 test
+	@make IMAGE=mysql:8.0.32 test
 
 oracle-5.7: ## Oracle の MySQL 5.7 イメージでテスト
-	@make IMAGE=mysql/mysql-server:5.7.40 test
+	@make IMAGE=mysql/mysql-server:5.7.41 test
 
 oracle-8.0: ## Oracle の MySQL 8.0 イメージでテスト
-	@make IMAGE=mysql/mysql-server:8.0.31 test
-
-mariadb-10.6: ## docker official の MariaDB 10.6 イメージでテスト
-	@make IMAGE=mariadb:10.6.10 test
+	@make IMAGE=mysql/mysql-server:8.0.32 test
 
 mariadb-10.7: ## docker official の MariaDB 10.7 イメージでテスト
-	@make IMAGE=mariadb:10.7.6 test
+	@make IMAGE=mariadb:10.7.7 test
+
+mariadb-10.8: ## docker official の MariaDB 10.8 イメージでテスト
+	@make IMAGE=mariadb:10.8.6 test
+
+mariadb-10.9: ## docker official の MariaDB 10.9 イメージでテスト
+	@make IMAGE=mariadb:10.9.4 test
 
 .PHONY: all-rep
 define rep_target_template
